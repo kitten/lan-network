@@ -42,7 +42,6 @@ async function dhcp() {
       return dhcpDiscover(assignment);
     })
   );
-  console.log(discoveries);
   let assignment: GatewayAssignment | null = null;
   for (const discovery of discoveries) {
     // The first discovered gateway is returned, if it matches an assignment

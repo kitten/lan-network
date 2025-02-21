@@ -1,6 +1,6 @@
 {
   "name": "lan-network",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Best-effort discovery of the machine's default gateway and local network IP exclusively with UDP sockets.",
   "author": "Phil Pluckthun <phil@kitten.sh>",
   "source": "./src/index.ts",
