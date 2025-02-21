@@ -1,4 +1,4 @@
-import { networkInterfaces } from 'node:os';
+import os from 'node:os';
 import type { GatewayAssignment, NetworkAssignment } from './types';
 
 export const parseMacStr = (macStr: string): number[] =>
@@ -36,7 +36,7 @@ const getSubnetPriority = (addr: string): number => {
 
 export const interfaceAssignments = (): NetworkAssignment[] => {
   const candidates: NetworkAssignment[] = [];
-  const interfaces = networkInterfaces();
+  const interfaces = os.networkInterfaces();
   for (const iname in interfaces) {
     const assignments = interfaces[iname];
     if (!assignments) continue;

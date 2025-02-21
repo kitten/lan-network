@@ -13,11 +13,13 @@
     "dist/"
   ],
   "scripts": {
+    "test": "vitest test",
+    "test:run": "vitest test --run",
     "build": "rollup -c ./scripts/rollup.config.mjs",
     "postbuild": "tsc --noEmit ./dist/lan-network.d.ts",
     "check": "tsc --noEmit",
     "clean": "rimraf dist node_modules/.cache",
-    "prepublishOnly": "run-s clean build check",
+    "prepublishOnly": "run-s clean build check test:run",
     "prepare": "node ./scripts/prepare.js || true",
     "changeset:version": "changeset version && pnpm install --lockfile-only",
     "changeset:publish": "changeset publish"
@@ -72,5 +74,8 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "dependencies": {
+    "vitest": "^3.0.6"
   }
 }
