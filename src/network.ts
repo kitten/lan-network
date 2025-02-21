@@ -1,6 +1,17 @@
 import os from 'node:os';
 import type { GatewayAssignment, NetworkAssignment } from './types';
 
+export const DEFAULT_ASSIGNMENT: GatewayAssignment = {
+  iname: 'lo0',
+  address: '127.0.0.1',
+  netmask: '255.0.0.0',
+  family: 'IPv4',
+  mac: '00:00:00:00:00:00',
+  internal: true,
+  cidr: '127.0.0.1/8',
+  gateway: null,
+};
+
 export const parseMacStr = (macStr: string): number[] =>
   macStr
     .split(':')

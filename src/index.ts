@@ -1,19 +1,12 @@
 import { spawnSync } from 'child_process';
 import { dhcpDiscover } from './dhcp';
 import { probeDefaultRoute } from './route';
-import { interfaceAssignments, matchAssignment } from './network';
+import {
+  DEFAULT_ASSIGNMENT,
+  interfaceAssignments,
+  matchAssignment,
+} from './network';
 import type { GatewayAssignment } from './types';
-
-const DEFAULT_ASSIGNMENT: GatewayAssignment = {
-  iname: 'lo0',
-  address: '127.0.0.1',
-  netmask: '255.0.0.0',
-  family: 'IPv4',
-  mac: '00:00:00:00:00:00',
-  internal: true,
-  cidr: '127.0.0.1/8',
-  gateway: null,
-};
 
 export async function lanNetwork(): Promise<GatewayAssignment> {
   // Get IPv4 network assignments, sorted by:
