@@ -1,5 +1,12 @@
 # lan-network
 
+## 0.1.2
+
+### Patch Changes
+
+- Add CLI for testing
+  Submitted by [@kitten](https://github.com/kitten) (See [#3](https://github.com/kitten/lan-network/pull/3))
+
 ## 0.1.1
 
 ### Patch Changes
