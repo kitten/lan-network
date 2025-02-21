@@ -69,7 +69,7 @@ export const dhcpDiscover = (
       socket.close();
       socket.unref();
     });
-    socket.bind(DHCP_CLIENT_PORT, () => {
+    socket.bind(DHCP_CLIENT_PORT, assignment.address, () => {
       socket.setBroadcast(true);
       socket.setSendBufferSize(packet.length);
       socket.send(
