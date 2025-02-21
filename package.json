@@ -24,6 +24,9 @@
     "changeset:version": "changeset version && pnpm install --lockfile-only",
     "changeset:publish": "changeset publish"
   },
+  "bin": {
+    "lan-network": "./dist/lan-network-cli.js"
+  },
   "exports": {
     ".": {
       "types": "./dist/lan-network.d.ts",
@@ -34,6 +37,11 @@
       "types": "./dist/lan-network-subprocess.d.ts",
       "require": "./dist/lan-network-subprocess.js",
       "source": "./src/subprocess.ts"
+    },
+    "./cli": {
+      "types": "./dist/lan-network-cli.d.ts",
+      "require": "./dist/lan-network-cli.js",
+      "source": "./src/cli.ts"
     },
     "./package.json": "./package.json"
   },
