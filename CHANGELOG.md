@@ -1,5 +1,12 @@
 # lan-network
 
+## 0.1.3
+
+### Patch Changes
+
+- Move vitest to devDependencies
+  Submitted by [@kitten](https://github.com/kitten) (See [#5](https://github.com/kitten/lan-network/pull/5))
+
 ## 0.1.2
 
 ### Patch Changes
