@@ -5,6 +5,7 @@ import {
   DEFAULT_ASSIGNMENT,
   interfaceAssignments,
   matchAssignment,
+  isInternal,
 } from './network';
 import type { GatewayAssignment } from './types';
 
@@ -26,7 +27,10 @@ export async function lanNetwork(): Promise<GatewayAssignment> {
   try {
     const defaultRoute = await probeDefaultRoute();
     // If this route matches a known assignment, return it without a gateway
-    if ((assignment = matchAssignment(assignments, defaultRoute))) {
+    if (
+      (assignment = matchAssignment(assignments, defaultRoute)) &&
+      !isInternal(assignment)
+    ) {
       return assignment;
     }
   } catch {
