@@ -26,7 +26,10 @@ export async function lanNetwork(): Promise<GatewayAssignment> {
   try {
     const defaultRoute = await probeDefaultRoute();
     // If this route matches a known assignment, return it without a gateway
-    if ((assignment = matchAssignment(assignments, defaultRoute))) {
+    if (
+      (assignment = matchAssignment(assignments, defaultRoute)) &&
+      assignment.internal
+    ) {
       return assignment;
     }
   } catch {
