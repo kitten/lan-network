@@ -1,5 +1,12 @@
 # lan-network
 
+## 0.1.5
+
+### Patch Changes
+
+- When matching a probed route, ignore internal interfaces. The probed route will match a VPN (virtual) interface when using it to tunnel all traffic, but is unlikely to be considered the local network by users
+  Submitted by [@kitten](https://github.com/kitten) (See [#7](https://github.com/kitten/lan-network/pull/7))
+
 ## 0.1.3
 
 ### Patch Changes
