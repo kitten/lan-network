@@ -45,6 +45,10 @@ const getSubnetPriority = (addr: string): number => {
   else return 0;
 };
 
+/** Determines if an assignment is internal (indicated by the flag or by a zeroed mac address) */
+export const isInternal = (assignment: NetworkAssignment) =>
+  assignment.internal || parseMacStr(assignment.mac).every(x => !x);
+
 export const interfaceAssignments = (): NetworkAssignment[] => {
   const candidates: NetworkAssignment[] = [];
   const interfaces = os.networkInterfaces();
@@ -62,7 +66,7 @@ export const interfaceAssignments = (): NetworkAssignment[] => {
     // Prioritise external interfaces, then sort by priority,
     // when priority is equal, sort by raw IP values
     const sortBy =
-      +a.internal - +b.internal ||
+      +isInternal(a) - +isInternal(b) ||
       priorityB - priorityA ||
       parseIpStr(b.address) - parseIpStr(a.address);
     return sortBy;
