@@ -56,6 +56,9 @@ export const isInternal = (assignment: NetworkAssignment) => {
   } else if (mac[0] === 0 && mac[1] === 21 && mac[2] === 93) {
     // NOTE(@kitten): Microsoft virtual interface
     return true;
+  } else if (assignment.iname.includes('vEthernet')) {
+    // NOTE(@kitten): Other Windows virtual interfaces
+    return true;
   } else {
     return false;
   }
