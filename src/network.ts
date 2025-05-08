@@ -46,8 +46,23 @@ const getSubnetPriority = (addr: string): number => {
 };
 
 /** Determines if an assignment is internal (indicated by the flag or by a zeroed mac address) */
-export const isInternal = (assignment: NetworkAssignment) =>
-  assignment.internal || parseMacStr(assignment.mac).every(x => !x);
+export const isInternal = (assignment: NetworkAssignment) => {
+  if (assignment.internal) {
+    return true;
+  }
+  const mac = parseMacStr(assignment.mac);
+  if (mac.every(x => !x)) {
+    return true;
+  } else if (mac[0] === 0 && mac[1] === 21 && mac[2] === 93) {
+    // NOTE(@kitten): Microsoft virtual interface
+    return true;
+  } else if (assignment.iname.includes('vEthernet')) {
+    // NOTE(@kitten): Other Windows virtual interfaces
+    return true;
+  } else {
+    return false;
+  }
+};
 
 export const interfaceAssignments = (): NetworkAssignment[] => {
   const candidates: NetworkAssignment[] = [];

@@ -1,7 +1,7 @@
 import { createSocket } from 'dgram';
 
-const NOOP_PORT = 65535;
-const NOOP_IP = '255.255.255.255';
+const PROBE_PORT = 53;
+const PROBE_IP = '1.1.1.1';
 const NO_ROUTE_IP = '0.0.0.0';
 
 class DefaultRouteError extends TypeError {
@@ -16,7 +16,7 @@ export const probeDefaultRoute = (): Promise<string> => {
       socket.close();
       socket.unref();
     });
-    socket.connect(NOOP_PORT, NOOP_IP, () => {
+    socket.connect(PROBE_PORT, PROBE_IP, () => {
       const address = socket.address();
       if (address && 'address' in address && address.address !== NO_ROUTE_IP) {
         resolve(address.address);
