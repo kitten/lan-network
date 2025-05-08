@@ -1,5 +1,12 @@
 # lan-network
 
+## 0.1.6
+
+### Patch Changes
+
+- ⚠️ Fix probing and fallback methods for Windows
+  Submitted by [@kitten](https://github.com/kitten) (See [#9](https://github.com/kitten/lan-network/pull/9))
+
 ## 0.1.5
 
 ### Patch Changes
