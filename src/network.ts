@@ -26,6 +26,17 @@ export const parseIpStr = (ipStr: string): number => {
   return addr[3] | (addr[2] << 8) | (addr[1] << 16) | (addr[0] << 24);
 };
 
+export const isSameSubnet = (
+  addrA: string,
+  addrB: string,
+  netmask: string
+): boolean => {
+  const rawAddrA = parseIpStr(addrA);
+  const rawAddrB = parseIpStr(addrB);
+  const rawMask = parseIpStr(netmask);
+  return (rawAddrA & rawMask) === (rawAddrB & rawMask);
+};
+
 export const toIpStr = (addr: number): string => {
   const MASK = (1 << 8) - 1;
   let ipStr = '';
