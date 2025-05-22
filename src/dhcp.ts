@@ -1,6 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { createSocket } from 'node:dgram';
-import { parseIpStr, toIpStr, parseMacStr } from './network';
+import { parseIpStr, toIpStr, parseMacStr, isSameSubnet } from './network';
 import type { NetworkAssignment } from './types';
 
 class DHCPTimeoutError extends TypeError {
@@ -57,6 +57,12 @@ export const dhcpDiscover = (
     const socket = createSocket(
       { type: 'udp4', reuseAddr: true },
       (_msg, rinfo) => {
+        if (
+          !isSameSubnet(rinfo.address, assignment.address, assignment.netmask)
+        ) {
+          return;
+        }
+
         clearTimeout(timeout);
         resolve(rinfo.address);
         socket.close();

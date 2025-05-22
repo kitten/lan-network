@@ -6,6 +6,7 @@ import {
   toIpStr,
   interfaceAssignments,
   matchAssignment,
+  isSameSubnet,
 } from '../network';
 
 describe(parseMacStr, () => {
@@ -30,6 +31,19 @@ describe(toIpStr, () => {
       expect(toIpStr(parseIpStr(addr))).toBe(addr);
     }
   );
+});
+
+describe(isSameSubnet, () => {
+  it('returns true for same subnet', () => {
+    expect(isSameSubnet('192.168.1.1', '192.168.1.2', '255.255.255.0')).toBe(
+      true
+    );
+  });
+  it('returns false for different subnet', () => {
+    expect(isSameSubnet('192.168.1.1', '192.168.2.1', '255.255.255.0')).toBe(
+      false
+    );
+  });
 });
 
 describe(interfaceAssignments, () => {
