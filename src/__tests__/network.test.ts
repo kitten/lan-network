@@ -116,6 +116,53 @@ describe(interfaceAssignments, () => {
       ]
     `);
   });
+
+  it('deprioritizes bridge interfaces', () => {
+    networkInterfaces.mockReturnValueOnce({
+      bridge0: [
+        {
+          address: '100.0.0.11',
+          netmask: '255.255.255.0',
+          family: 'IPv4',
+          mac: '10:00:00:00:00:00',
+          internal: false,
+          cidr: '',
+        },
+      ],
+      en1: [
+        {
+          address: '10.0.0.10',
+          netmask: '255.255.255.0',
+          family: 'IPv4',
+          mac: '10:00:00:00:00:00',
+          internal: false,
+          cidr: '',
+        },
+      ],
+    });
+    expect(interfaceAssignments()).toMatchInlineSnapshot(`
+      [
+        {
+          "address": "10.0.0.10",
+          "cidr": "",
+          "family": "IPv4",
+          "iname": "en1",
+          "internal": false,
+          "mac": "10:00:00:00:00:00",
+          "netmask": "255.255.255.0",
+        },
+        {
+          "address": "100.0.0.11",
+          "cidr": "",
+          "family": "IPv4",
+          "iname": "bridge0",
+          "internal": false,
+          "mac": "10:00:00:00:00:00",
+          "netmask": "255.255.255.0",
+        },
+      ]
+    `);
+  });
 });
 
 describe(matchAssignment, () => {
