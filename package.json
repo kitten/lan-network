@@ -60,7 +60,6 @@
     "url": "https://github.com/kitten/lan-network/issues"
   },
   "devDependencies": {
-    "@babel/plugin-transform-block-scoping": "^7.25.9",
     "@babel/plugin-transform-typescript": "^7.26.7",
     "@changesets/cli": "^2.29.6",
     "@changesets/get-github-info": "^0.6.0",
