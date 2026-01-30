@@ -1,5 +1,14 @@
 # lan-network
 
+## 0.1.8
+
+### Patch Changes
+
+- Deprioritize `bridge*` interfaces as internal networks
+  Submitted by [@kitten](https://github.com/kitten) (See [#15](https://github.com/kitten/lan-network/pull/15))
+- Update rollup config for reduced output and exclude sources from sourcemaps
+  Submitted by [@kitten](https://github.com/kitten) (See [#17](https://github.com/kitten/lan-network/pull/17))
+
 ## 0.1.7
 
 ### Patch Changes
