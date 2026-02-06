@@ -1,5 +1,12 @@
 # lan-network
 
+## 0.2.0
+
+### Minor Changes
+
+- Add `noProbe` and `noDhcp` options
+  Submitted by [@kitten](https://github.com/kitten) (See [#18](https://github.com/kitten/lan-network/pull/18))
+
 ## 0.1.8
 
 ### Patch Changes
