@@ -9,7 +9,14 @@ import {
 } from './network';
 import type { GatewayAssignment } from './types';
 
-export async function lanNetwork(): Promise<GatewayAssignment> {
+export interface NetworkOptions {
+  noProbe?: boolean;
+  noDhcp?: boolean;
+}
+
+export async function lanNetwork(
+  opts?: NetworkOptions
+): Promise<GatewayAssignment> {
   // Get IPv4 network assignments, sorted by:
   // - external first
   // - LAN-reserved IP range priority
@@ -24,33 +31,37 @@ export async function lanNetwork(): Promise<GatewayAssignment> {
 
   // First, we attempt to probe the default route to a publicly routed IP
   // This will generally fail if there's no route, e.g. if the network is offline
-  try {
-    const defaultRoute = await probeDefaultRoute();
-    // If this route matches a known assignment, return it without a gateway
-    if (
-      (assignment = matchAssignment(assignments, defaultRoute)) &&
-      !isInternal(assignment)
-    ) {
-      return assignment;
+  if (!opts?.noProbe) {
+    try {
+      const defaultRoute = await probeDefaultRoute();
+      // If this route matches a known assignment, return it without a gateway
+      if (
+        (assignment = matchAssignment(assignments, defaultRoute)) &&
+        !isInternal(assignment)
+      ) {
+        return assignment;
+      }
+    } catch {
+      // Ignore errors, since we have a fallback method
     }
-  } catch {
-    // Ignore errors, since we have a fallback method
   }
 
   // Second, attempt to discover a gateway's DHCP network
   // Because without a gateway we won't get a reply, we do this in parallel
-  const discoveries = await Promise.allSettled(
-    assignments.map(assignment => {
-      // For each assignment, we send a DHCPDISCOVER packet to its network mask
-      return dhcpDiscover(assignment);
-    })
-  );
-  for (const discovery of discoveries) {
-    // The first discovered gateway is returned, if it matches an assignment
-    if (discovery.status === 'fulfilled' && discovery.value) {
-      const dhcpRoute = discovery.value;
-      if ((assignment = matchAssignment(assignments, dhcpRoute))) {
-        return assignment;
+  if (!opts?.noDhcp) {
+    const discoveries = await Promise.allSettled(
+      assignments.map(assignment => {
+        // For each assignment, we send a DHCPDISCOVER packet to its network mask
+        return dhcpDiscover(assignment);
+      })
+    );
+    for (const discovery of discoveries) {
+      // The first discovered gateway is returned, if it matches an assignment
+      if (discovery.status === 'fulfilled' && discovery.value) {
+        const dhcpRoute = discovery.value;
+        if ((assignment = matchAssignment(assignments, dhcpRoute))) {
+          return assignment;
+        }
       }
     }
   }
@@ -60,11 +71,15 @@ export async function lanNetwork(): Promise<GatewayAssignment> {
   return { ...assignments[0], gateway: null };
 }
 
-export function lanNetworkSync(): GatewayAssignment {
+export function lanNetworkSync(opts?: NetworkOptions): GatewayAssignment {
   const subprocessPath = require.resolve('lan-network/subprocess');
   const { error, status, stdout } = spawnSync(
     process.execPath,
-    [subprocessPath],
+    [
+      subprocessPath,
+      opts?.noProbe ? '--no-probe' : null,
+      opts?.noDhcp ? '--no-dhcp' : null,
+    ].filter((x): x is string => !!x),
     {
       shell: false,
       timeout: 500,
