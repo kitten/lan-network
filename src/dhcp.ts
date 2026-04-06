@@ -70,8 +70,10 @@ export const dhcpDiscover = (
       }
     );
     function cleanup() {
-      socket.close();
-      socket.unref();
+      try {
+        socket.close();
+        socket.unref();
+      } catch {}
     }
     socket.on('error', error => {
       clearTimeout(timeout);
