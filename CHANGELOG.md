@@ -1,5 +1,12 @@
 # lan-network
 
+## 0.2.1
+
+### Patch Changes
+
+- Add missing `socket.close` for DHCP discover on timeout
+  Submitted by [@kitten](https://github.com/kitten) (See [`ee60e14`](https://github.com/kitten/lan-network/commit/ee60e1415dc323843c07e3a0d0acda998ed2d9ae))
+
 ## 0.2.0
 
 ### Minor Changes
