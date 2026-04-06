@@ -53,6 +53,7 @@ export const dhcpDiscover = (
           `Received no reply to DHCPDISCOVER in ${DHCP_TIMEOUT}ms`
         )
       );
+      cleanup();
     }, DHCP_TIMEOUT);
     const socket = createSocket(
       { type: 'udp4', reuseAddr: true },
@@ -65,15 +66,17 @@ export const dhcpDiscover = (
 
         clearTimeout(timeout);
         resolve(rinfo.address);
-        socket.close();
-        socket.unref();
+        cleanup();
       }
     );
+    function cleanup() {
+      socket.close();
+      socket.unref();
+    }
     socket.on('error', error => {
       clearTimeout(timeout);
       reject(error);
-      socket.close();
-      socket.unref();
+      cleanup();
     });
     socket.bind(DHCP_CLIENT_PORT, () => {
       socket.setBroadcast(true);
